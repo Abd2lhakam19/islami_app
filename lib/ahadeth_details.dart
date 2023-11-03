@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:islami_app/hadeth_model.dart';
+import 'package:islami_app/providers/my_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'myThemeData.dart';
 
@@ -9,14 +11,17 @@ class AhadethDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)?.settings.arguments as HadethModel;
+    var provider = Provider.of<MyProvider>(context);
     return Stack(
       children: [
-        Image.asset("assets/images/background.png"),
+       provider.isDarkMode()?Image.asset("assets/images/dark_bg.png") : Image.asset("assets/images/background.png"),
         Scaffold(
           appBar: AppBar(
             title: Text(
               args.title,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color:  provider.isDarkMode()?MyThemeData.whiteColor:MyThemeData.blackColor
+              ),
             ),
           ),
           body: Padding(
@@ -26,7 +31,7 @@ class AhadethDetails extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                   side: BorderSide(
-                      color: MyThemeData.primaryColor,
+                      color: MyThemeData.primaryLight,
                       width: 2
                   )
               ),
@@ -37,11 +42,13 @@ class AhadethDetails extends StatelessWidget {
                     indent: 40,
                     endIndent: 40,
                     thickness: 1,
-                    color: MyThemeData.primaryColor,
+                    color: MyThemeData.primaryLight,
                   ),
                   itemBuilder: (context, index) {
                     return Center(
-                        child: Text(args.content[index],style: Theme.of(context).textTheme.bodySmall,textAlign: TextAlign.center,));
+                        child: Text(args.content[index],style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyThemeData.blackColor
+                        ),textAlign: TextAlign.center,));
                   },
                   itemCount: args.content.length,
                 ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:islami_app/myThemeData.dart';
+import 'package:islami_app/providers/my_provider.dart';
 import 'package:islami_app/sura_details.dart';
 import 'package:islami_app/sura_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 class QuranTab extends StatelessWidget {
   List<String> suraNames = [
     "الفاتحه",
@@ -123,31 +125,32 @@ class QuranTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<MyProvider>(context);
     return Center(
       child: Column(
         children: [
           Image.asset("assets/images/quran_image.png"),
           Divider(
             thickness: 2,
-            color: MyThemeData.primaryColor,
+            color: MyThemeData.primaryLight,
           ),
           Text(
-           AppLocalizations.of(context)!.suraName,
+           AppLocalizations.of(context)!.surah_name,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!
-                .copyWith(color: MyThemeData.blackColor),
+                .copyWith(color: provider.isDarkMode()?MyThemeData.whiteColor:MyThemeData.blackColor),
           ),
           Divider(
             thickness: 2,
-            color: MyThemeData.primaryColor,
+            color: MyThemeData.primaryLight,
           ),
           Expanded(
             child: ListView.separated(
               separatorBuilder: (context, index) {
                 return Divider(
                   thickness: 1,
-                  color: MyThemeData.primaryColor,
+                  color: MyThemeData.primaryLight,
                   indent: 40,
                   endIndent: 40,
                 );
@@ -160,7 +163,9 @@ class QuranTab extends StatelessWidget {
                   child: Center(
                     child: Text(
                       suraNames[index],
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: provider.isDarkMode()?MyThemeData.whiteColor:MyThemeData.blackColor
+                      ),
                     ),
                   ),
                 );

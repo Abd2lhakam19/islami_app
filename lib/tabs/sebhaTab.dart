@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:islami_app/myThemeData.dart';
+import 'package:islami_app/providers/my_provider.dart';
+import 'package:provider/provider.dart';
 
 class SebhaTab extends StatefulWidget {
+
   @override
   State<SebhaTab> createState() => _SebhaTabState();
 }
@@ -18,6 +21,7 @@ class _SebhaTabState extends State<SebhaTab> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<MyProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: Center(
@@ -32,7 +36,7 @@ class _SebhaTabState extends State<SebhaTab> {
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!
-                  .copyWith(color: MyThemeData.blackColor),
+                  .copyWith(color:provider.isDarkMode()?MyThemeData.whiteColor : MyThemeData.blackColor),
             ),
             SizedBox(
               height: 40,
@@ -41,7 +45,7 @@ class _SebhaTabState extends State<SebhaTab> {
               height: 65,
               width: 50,
               decoration: BoxDecoration(
-                  color: MyThemeData.primaryColor.withOpacity(0.8),
+                  color: MyThemeData.primaryLight.withOpacity(0.8),
                   borderRadius: BorderRadius.circular(14)),
               child: Center(
                   child: Text(
@@ -57,7 +61,7 @@ class _SebhaTabState extends State<SebhaTab> {
                     fixedSize: Size(140, 50),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
-                    backgroundColor: MyThemeData.primaryColor),
+                    backgroundColor: MyThemeData.primaryLight),
                 onPressed: () {
                   counter++;
                   if (counter > 33) {

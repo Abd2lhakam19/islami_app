@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islami_app/myThemeData.dart';
+import 'package:islami_app/providers/my_provider.dart';
 import 'package:islami_app/sura_model.dart';
+import 'package:provider/provider.dart';
 
 class SuraDetails extends StatefulWidget {
   static const String routName = "suraDetails";
@@ -19,14 +21,17 @@ class _SuraDetailsState extends State<SuraDetails> {
     if (verses.isEmpty) {
       loadFile(args.index);
     }
+    var provider = Provider.of<MyProvider>(context);
     return Stack(
       children: [
-        Image.asset("assets/images/background.png"),
+        provider.isDarkMode()?Image.asset("assets/images/dark_bg.png") :Image.asset("assets/images/background.png"),
         Scaffold(
           appBar: AppBar(
             title: Text(
               args.name,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: provider.isDarkMode()?MyThemeData.whiteColor:MyThemeData.blackColor
+              ),
             ),
           ),
           body: Padding(
@@ -36,7 +41,7 @@ class _SuraDetailsState extends State<SuraDetails> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
                 side: BorderSide(
-                  color: MyThemeData.primaryColor,
+                  color: MyThemeData.primaryLight,
                   width: 2
                 )
               ),
@@ -47,11 +52,13 @@ class _SuraDetailsState extends State<SuraDetails> {
                     indent: 40,
                     endIndent: 40,
                     thickness: 1,
-                    color: MyThemeData.primaryColor,
+                    color: provider.isDarkMode()?MyThemeData.blackColor:MyThemeData.primaryLight,
                   ),
                   itemBuilder: (context, index) {
                     return Center(
-                        child: Text(verses[index],style: Theme.of(context).textTheme.bodySmall,textAlign: TextAlign.center,));
+                        child: Text(verses[index],style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: MyThemeData.blackColor
+                        ),textAlign: TextAlign.center,));
                   },
                   itemCount: verses.length,
                 ),

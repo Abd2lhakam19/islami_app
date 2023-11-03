@@ -24,16 +24,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale(pro.languuageCode),
+      locale: pro.appLanguage,
       debugShowCheckedModeBanner: false,
       initialRoute: SplashScreen.routName,
       routes: {
-        HomeScreen.routName: (context) => HomeScreen(),
+        HomeScreen.routeName: (context) => HomeScreen(),
         SplashScreen.routName:(context)=>SplashScreen(),
         SuraDetails.routName: (context) => SuraDetails(),
         AhadethDetails.routName: (context) => AhadethDetails(),
       },
       theme: MyThemeData.lightMode,
+      darkTheme: MyThemeData.darkTheme,
+      themeMode: pro.appTheme,
     );
   }
 }
